@@ -181,7 +181,7 @@ func NewWebsocketServerTransportWithAddr(addr string, path string, upgrader *web
 func NewWebsocketClientTransport(ctx context.Context, url string, config *tls.Config, header http.Header, proxy func(*http.Request) (*url.URL, error),
 	dialer func(string, string) (net.Conn, error)) (*Transport, error) {
 	dial := &websocket.Dialer{
-		NetDial: dialer,
+		NetDial:          dialer,
 		Proxy:            proxy,
 		HandshakeTimeout: 45 * time.Second,
 		TLSClientConfig:  config,
