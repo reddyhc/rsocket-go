@@ -177,7 +177,7 @@ func (wc *WebsocketClientBuilder) SetHeader(header http.Header) *WebsocketClient
 	return wc
 }
 
-// SetProxy sets dailer.
+// SetDailer sets dailer.
 func (wc *WebsocketClientBuilder) SetDailer(dialer func(string, string) (net.Conn, error)) *WebsocketClientBuilder {
 	wc.dialer = dialer
 	return wc
