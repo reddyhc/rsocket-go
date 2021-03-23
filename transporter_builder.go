@@ -38,7 +38,7 @@ type WebsocketClientBuilder struct {
 	tlsCfg *tls.Config
 	header http.Header
 	proxy  func(*http.Request) (*url.URL, error)
-	dialer func(string, string) (net.Conn, error)
+	dialTLS func(string, string) (net.Conn, error)
 }
 
 // WebsocketServerBuilder provides builder which can be used to create a server-side Websocket transport easily.
@@ -178,8 +178,8 @@ func (wc *WebsocketClientBuilder) SetHeader(header http.Header) *WebsocketClient
 }
 
 // SetDialer sets dialer.
-func (wc *WebsocketClientBuilder) SetDialer(dialer func(string, string) (net.Conn, error)) *WebsocketClientBuilder {
-	wc.dialer = dialer
+func (wc *WebsocketClientBuilder) SetDialTLS(dialTLS func(string, string) (net.Conn, error)) *WebsocketClientBuilder {
+	wc.dialTLS = dialTLS
 	return wc
 }
 
@@ -192,7 +192,7 @@ func (wc *WebsocketClientBuilder) SetProxy(proxy func(*http.Request) (*url.URL, 
 // Build builds and returns a new websocket ClientTransporter
 func (wc *WebsocketClientBuilder) Build() transport.ClientTransporter {
 	return func(ctx context.Context) (*transport.Transport, error) {
-		return transport.NewWebsocketClientTransport(ctx, wc.url, wc.tlsCfg, wc.header, wc.proxy, wc.dialer)
+		return transport.NewWebsocketClientTransport(ctx, wc.url, wc.tlsCfg, wc.header, wc.proxy, wc.dialTLS)
 	}
 }
 
